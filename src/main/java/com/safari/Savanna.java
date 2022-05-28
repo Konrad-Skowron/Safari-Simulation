@@ -93,9 +93,9 @@ public class Savanna extends JPanel {
                     map[carrion.x][carrion.y] = 'C';
                 }
                 else{
+                    map[animal.x][animal.y] = 'S';
+                    animal.move();
                     try {
-                        map[animal.x][animal.y] = 'S';
-                        animal.move();
                         map[animal.x][animal.y] = 'H';
                     } catch (Exception e) {
                         map[temp_x][temp_y] = 'H';
@@ -130,7 +130,7 @@ public class Savanna extends JPanel {
                                 animals.get(j).move();
                             }
                             catch(Exception e){
-
+                                System.out.println("TEASDTAS");
                             }
                         }
                     }
