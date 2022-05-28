@@ -132,7 +132,7 @@ public class Savanna extends JPanel {
     }
 
     public static void main(String[] args) {
-        Savanna savanna = new Savanna(200);
+        Savanna savanna = new Savanna(300);
         JFrame frame = new JFrame("Safari Simulation");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(savanna);
@@ -141,6 +141,6 @@ public class Savanna extends JPanel {
 
         savanna.map_initialization();
         savanna.pause(1);
-        savanna.addHippo(50);
+        savanna.addHippo(6000);
     }
 }
