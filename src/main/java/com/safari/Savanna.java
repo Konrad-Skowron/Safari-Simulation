@@ -87,6 +87,7 @@ public class Savanna extends JPanel {
 
                 if (animal.food <= 0 || animal.water <= 0){
                     animal = null;
+                    System.gc();
 
                     Carrion carrion = new Carrion(temp_x, temp_y);
                     carrions.add(carrion);
@@ -126,12 +127,11 @@ public class Savanna extends JPanel {
                                 Hippo hippo = new Hippo(animals.get(i).x, animals.get(i).y-1);
                                 animals.add(hippo);
                                 map[hippo.x][hippo.y] = 'H';
-                                animals.get(i).move();
-                                animals.get(j).move();
                             }
                             catch(Exception e){
-                                System.out.println("TEASDTAS");
                             }
+                            animals.get(i).move();
+                            animals.get(j).move();
                         }
                     }
                 }
@@ -148,6 +148,6 @@ public class Savanna extends JPanel {
 
         savanna.map_initialization();
         savanna.pause(1);
-        savanna.addHippo(4);
+        savanna.addHippo(8);
     }
 }
