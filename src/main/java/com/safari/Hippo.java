@@ -12,7 +12,7 @@ public class Hippo extends Animal {
         food = 100;
         water = 100;
         hp = 200;
-        speed = 5;
+        speed = 1;
         x = new Random().nextInt(size);
         y = new Random().nextInt(size);
         i++;

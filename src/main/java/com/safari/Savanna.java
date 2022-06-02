@@ -46,6 +46,15 @@ public class Savanna extends JPanel {
                 }
             }
         }
+
+        for (int x = 0; x < size; x++) {
+            for (int y = 0; y < size; y++) {
+                if (map[x][y] == 'G') {
+                    g.setColor(Color.DARK_GRAY);
+                    g.fillRect(x*10, y*10, 10, 10);
+                }
+            }
+        }
     }
 
     public void map_initialization() {
@@ -55,6 +64,7 @@ public class Savanna extends JPanel {
             }
         }
     }
+
 
     public void pause(int s) {
         try {
@@ -112,7 +122,7 @@ public class Savanna extends JPanel {
                     carrion = null;
                 }
             }
-            pronHub();
+            //pronHub();
             repaint();
             i--;
         }
@@ -124,14 +134,21 @@ public class Savanna extends JPanel {
                     if(animals.get(i).x == animals.get(j).x && animals.get(j).x == animals.get(j).x){
                         if((animals.get(i).sex == 'F' && animals.get(j).sex == 'M') || (animals.get(i).sex == 'M' && animals.get(j).sex == 'F')){
                             try{
-                                Hippo hippo = new Hippo(animals.get(i).x, animals.get(i).y-1);
+                                Hippo hippo = new Hippo(animals.get(i).x, animals.get(i).y);
                                 animals.add(hippo);
                                 map[hippo.x][hippo.y] = 'H';
                             }
                             catch(Exception e){
                             }
-                            animals.get(i).move();
-                            animals.get(j).move();
+                            if(animals.get(i).x == 0 || animals.get(i).x == animals.size()-1){
+                                animals.get(i).x--;
+                                animals.get(j).x++;
+
+                            }
+                            else if(animals.get(i).y == 0 || animals.get(i).y == animals.size()-1){
+                                animals.get(i).y--;
+                                animals.get(j).y++;
+                            }
                         }
                     }
                 }
@@ -139,11 +156,11 @@ public class Savanna extends JPanel {
     }
 
     public static void main(String[] args) {
-        Savanna savanna = new Savanna(10);
+        Savanna savanna = new Savanna(64);
         JFrame frame = new JFrame("Safari Simulation");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(savanna);
-        frame.setSize(savanna.size*10, savanna.size*10 + 30);
+        frame.setSize(savanna.size*10+13, savanna.size*10 + 38);
         frame.setVisible(true);
 
         savanna.map_initialization();
