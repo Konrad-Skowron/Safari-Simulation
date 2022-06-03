@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class Savanna extends JPanel {
@@ -36,21 +37,12 @@ public class Savanna extends JPanel {
                     g.setColor(Color.DARK_GRAY);
                     g.fillRect(x*10, y*10, 10, 10);
                 }
-            }
-        }
-        for (int x = 0; x < size; x++) {
-            for (int y = 0; y < size; y++) {
-                if (map[x][y] == 'C') {
+                else if (map[x][y] == 'C') {
                     g.setColor(Color.RED);
                     g.fillRect(x*10, y*10, 10, 10);
                 }
-            }
-        }
-
-        for (int x = 0; x < size; x++) {
-            for (int y = 0; y < size; y++) {
-                if (map[x][y] == 'G') {
-                    g.setColor(Color.DARK_GRAY);
+                else if (map[x][y] == 'T') {
+                    g.setColor(new Color(66,105,47));
                     g.fillRect(x*10, y*10, 10, 10);
                 }
             }
@@ -63,8 +55,46 @@ public class Savanna extends JPanel {
                 map[x][y] = 'S';
             }
         }
+        tree_generate(size);
     }
 
+    public void tree_generate(int size){
+        int treeAmount = new Random().nextInt(4)+3;
+
+        for(int i=0; i<treeAmount; i++){
+            int first = new Random().nextInt(size);
+            int second = new Random().nextInt(size);
+            for(int j=first-2; j<first+2; j++){
+                for (int k=second-2; k<second+2; k++){
+                    try {
+                        map[j][k] = 'T';
+                    }
+                    catch (Exception e){
+
+                    }
+                }
+            }
+        }
+    }
+    public void iftree(Animal animal, int x, int y){
+        try{
+            animal.move();
+            if(map[animal.x][animal.y] == 'T'){
+                animal.x = x;
+                animal.y = y;
+                iftree(animal, x, y);
+            }
+            else {
+                map[x][y] = 'S';
+                map[animal.x][animal.y] = 'H';
+            }
+        }
+        catch (Exception e){
+            animal.x = x;
+            animal.y = y;
+            iftree(animal, x, y);
+        }
+    }
 
     public void pause(int s) {
         try {
@@ -89,30 +119,18 @@ public class Savanna extends JPanel {
         while (i > 0) {
             pause(1);
             for (Animal animal : animals) {
-                animal.food -= 2;
-                animal.water--;
-
-                int temp_x = animal.x;
-                int temp_y = animal.y;
-
                 if (animal.food <= 0 || animal.water <= 0){
-                    animal = null;
-                    System.gc();
-
-                    Carrion carrion = new Carrion(temp_x, temp_y);
+                    Carrion carrion = new Carrion(animal.x, animal.y);
                     carrions.add(carrion);
                     map[carrion.x][carrion.y] = 'C';
+
+                    animal = null;
+                    System.gc();
                 }
                 else{
-                    map[animal.x][animal.y] = 'S';
-                    animal.move();
-                    try {
-                        map[animal.x][animal.y] = 'H';
-                    } catch (Exception e) {
-                        map[temp_x][temp_y] = 'H';
-                        animal.x = temp_x;
-                        animal.y = temp_y;
-                    }
+                    iftree(animal, animal.x, animal.y);
+                    animal.food -= 20;
+                    animal.water--;
                 }
             }
             for (Carrion carrion : carrions){
