@@ -173,6 +173,57 @@ public class Savanna extends JPanel {
         repaint();
         animalsMove();
     }
+    
+    public void animalsMove(Animal animal, int prevX, int prevY, char prevPrev){
+        animal.move();
+        try{
+            if(map[animal.x][animal.y] == 'T'){                 //Drzewo - Wszyscy ruszaja się jeszcze raz
+                animal.x = prevX;
+                animal.y = prevY;
+                animal.prev = prevPrev;
+                animalsMove(animal, prevX, prevY, prevPrev);
+            }
+
+            else if(map[animal.x][animal.y] == 'S'){            //Piasek
+                for(int i=animal.x-1; i<animal.x+1; i++){
+                    for (int j=animal.y-1; i<animal.y+1; j++){
+                        if(map[i][j] == 'W'){
+                            //drink
+                        }
+                    }
+                }
+            }
+
+            else if(map[animal.x][animal.y] == 'A'){            //Zwierzę
+                if(animal instanceof Hippo && map[animal.x][animal.y] == 'H'){
+                    animal.x = prevX;
+                    animal.y = prevY;
+                    animal.prev = prevPrev;
+                    animalsMove(animal, prevX, prevY, prevPrev);
+                }
+            }
+
+            else if(map[animal.x][animal.y] == 'W'){            //Woda
+                if(animal instanceof Hippo){                    //Hipo wchodzi
+                    animal.prev = map[animal.x][animal.y];
+                    map[prevX][prevY] = prevPrev;
+                    map[animal.x][animal.y] = 'H';
+                }
+                else {                                          //Reszta ruszaja się jeszcze raz
+                    animal.x = prevX;
+                    animal.y = prevY;
+                    animal.prev = prevPrev;
+                    animalsMove(animal, prevX, prevY, prevPrev);
+                }
+            }
+
+        }catch (Exception e){
+            animal.x = prevX;
+            animal.y = prevY;
+            animal.prev = prevPrev;
+            animalsMove(animal, prevX, prevY, prevPrev);
+        }
+    }
 
     public void animalsMove() {
         int i = 999;
@@ -188,7 +239,9 @@ public class Savanna extends JPanel {
                         animal = null;
                     }
                     else{
-                        iftree(animal, animal.x, animal.y, animal.prev);
+                        //iftree(animal, animal.x, animal.y, animal.prev);
+
+                        animalsMove(animal, animal.x, animal.y, animal.prev);
 
                         //drink(animal);
                         animal.food--;

@@ -1,10 +1,12 @@
 package com.safari;
-public class Hippo extends Animal {
+
+public class Lion extends Animal {
 
     int i = 1;
+    int damage = 20;
 
-    public Hippo() {
-        name = "hippo-" + i;
+    public Lion() {
+        name = "lion-" + i;
         sex = sexR();
         food = 100;
         water = 100;
@@ -12,8 +14,9 @@ public class Hippo extends Animal {
         speed = 1;
         i++;
     }
-    public Hippo(int x, int y) {
-        name = "hippo-" + i;
+
+    public Lion(int x, int y) {
+        name = "lion-" + i;
         sex = sexR();
         food = 100;
         water = 100;
