@@ -39,6 +39,10 @@ public class Savanna extends JPanel {
                     g.setColor(Color.GRAY);
                     g.fillRect(x*10, y*10, 10, 10);
                 }
+                else if (map[x][y] == 'L') {
+                    g.setColor(Color.ORANGE);
+                    g.fillRect(x*10, y*10, 10, 10);
+                }
                 else if (map[x][y] == 'C') {
                     g.setColor(Color.BLACK);
                     g.fillRect(x*10, y*10, 10, 10);
@@ -147,6 +151,25 @@ public class Savanna extends JPanel {
             animals.add(hippo);
             map[hippo.x][hippo.y] = 'H';
         }
+    }
+
+    public void addLion(int count) {
+        for (int i = 0; i < count; i++) {
+            Lion lion = new Lion();
+            do{
+                lion.x = new Random().nextInt(size);
+                lion.y = new Random().nextInt(size);
+            }while (map[lion.x][lion.y] == 'T' || map[lion.x][lion.y] == 'W' || map[lion.x][lion.y] == 'H');          //Jeśli respi na drzewie lub wodzie to szuka innego miejsca
+
+            lion.prev = map[lion.x][lion.y];
+            animals.add(lion);
+            map[lion.x][lion.y] = 'L';
+        }
+    }
+
+    public void addAnimals(int amountH, int amountL){
+        addHippo(amountH);
+        addLion(amountL);
         repaint();
         animalsMove();
     }
@@ -186,7 +209,7 @@ public class Savanna extends JPanel {
                 }
                 animal.prev = map[animal.x][animal.y];
                 map[prevX][prevY] = prevPrev;
-                map[animal.x][animal.y] = 'H';
+                map[animal.x][animal.y] = animal.getName().charAt(0);
             }
 
             else if(map[animal.x][animal.y] == 'H' || map[animal.x][animal.y] == 'L' || map[animal.x][animal.y] == 'V' || map[animal.x][animal.y] == 'C'){            //Zwierzę - jeszcze raz
@@ -224,28 +247,26 @@ public class Savanna extends JPanel {
         while (i > 0) {
             pause(1);
             for (Animal animal : animals) {
-                //if(!(animal.hp == 0)){
-                    if (animal.hp <= 0){
-                        Carrion carrion = new Carrion(animal.x, animal.y, animal.prev);
-                        carrions.add(carrion);
-                        map[carrion.x][carrion.y] = 'C';
-                        animal.hp = 0;
-                        animal = null;
-                    }
-                    else{
-                        animalsMove(animal, animal.x, animal.y, animal.prev);
+                if(animal.hp > 0){
+                    animalsMove(animal, animal.x, animal.y, animal.prev);
 
-                        animal.food -= 10;
-                        animal.water -= 5;
+                    animal.food -= 5;           //funkcja, można dodać jeszcze losowe tracenie statów/przypisać rózne dla zwierząt w klasie
+                    animal.water -= 10;
 
-                        if(animal.food <= 0 ){
-                            animal.hp -= 10;
-                        }
-                        if (animal.water <= 0 ){
-                            animal.hp -= 10;
-                        }
+                    if(animal.food <= 0 ){
+                        animal.hp -= 10;
                     }
-               // }
+                    if (animal.water <= 0 ){
+                        animal.hp -= 10;
+                    }
+                }
+                if (animal.hp <= 0){
+                    Carrion carrion = new Carrion(animal.x, animal.y, animal.prev);
+                    carrions.add(carrion);
+                    map[carrion.x][carrion.y] = 'C';
+                    animal.hp = 0;
+                    animal = null;
+                }
             }
             for (Carrion carrion : carrions){
                 carrion.time--;
@@ -297,6 +318,6 @@ public class Savanna extends JPanel {
 
         savanna.map_initialization();
         savanna.pause(1);
-        savanna.addHippo(25);
+        savanna.addAnimals(20, 20);
     }
 }

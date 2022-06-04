@@ -5,7 +5,7 @@ public class Vulture extends Animal {
     int i = 1;
 
     public Vulture() {
-        name = "vulture-" + i;
+        name = "Vulture-" + i;
         sex = sexR();
         food = 100;
         water = 100;
@@ -15,7 +15,7 @@ public class Vulture extends Animal {
     }
 
     public Vulture(int x, int y) {
-        name = "vulture-" + i;
+        name = "Vulture-" + i;
         sex = sexR();
         food = 100;
         water = 100;

@@ -4,7 +4,7 @@ public class Hippo extends Animal {
     int i = 1;
 
     public Hippo() {
-        name = "hippo-" + i;
+        name = "Hippo-" + i;
         sex = sexR();
         food = 100;
         water = 100;
@@ -13,12 +13,12 @@ public class Hippo extends Animal {
         i++;
     }
     public Hippo(int x, int y) {
-        name = "hippo-" + i;
+        name = "Hippo-" + i;
         sex = sexR();
         food = 100;
         water = 100;
         hp = 200;
-        speed = 5;
+        speed = 1;
         this.x = x;
         this.y = y;
         i++;
