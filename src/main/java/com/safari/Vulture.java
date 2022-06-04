@@ -10,7 +10,7 @@ public class Vulture extends Animal {
         food = 100;
         water = 100;
         hp = 200;
-        speed = 1;
+        speed = 3;
         id++;
     }
 

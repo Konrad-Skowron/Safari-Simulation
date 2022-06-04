@@ -43,6 +43,10 @@ public class Savanna extends JPanel {
                     g.setColor(Color.ORANGE);
                     g.fillRect(x*10, y*10, 10, 10);
                 }
+                else if (map[x][y] == 'V') {
+                    g.setColor(Color.WHITE);
+                    g.fillRect(x*10, y*10, 10, 10);
+                }
                 else if (map[x][y] == 'C') {
                     g.setColor(Color.BLACK);
                     g.fillRect(x*10, y*10, 10, 10);
@@ -166,10 +170,23 @@ public class Savanna extends JPanel {
             map[lion.x][lion.y] = 'L';
         }
     }
+    public void addVulture(int count) {
+        for (int i = 0; i < count; i++) {
+            Vulture vulture = new Vulture();
+            do{
+                vulture.x = new Random().nextInt(size);
+                vulture.y = new Random().nextInt(size);
+            }while (map[vulture.x][vulture.y] == 'H' || map[vulture.x][vulture.y] == 'L' || map[vulture.x][vulture.y] == 'V');
 
-    public void addAnimals(int amountH, int amountL){
+            vulture.prev = map[vulture.x][vulture.y];
+            animals.add(vulture);
+            map[vulture.x][vulture.y] = 'V';
+        }
+    }
+    public void addAnimals(int amountH, int amountL, int amountV){
         addHippo(amountH);
         addLion(amountL);
+        addVulture(amountV);
         repaint();
         animalsMove();
     }
@@ -210,9 +227,9 @@ public class Savanna extends JPanel {
                                 }
                             }
                         }
-                        else if(map[i][j] == 'C'){
+                        else if(map[i][j] == 'C'){                                          //O tu trzeba sie pobawić
                             if(animal instanceof Vulture){
-                                //eat truchło
+                                eat(animal);
                             }
                         }
                     }
@@ -336,6 +353,6 @@ public class Savanna extends JPanel {
 
         savanna.map_initialization(4, 10);
         savanna.pause(1);
-        savanna.addAnimals(20, 20);
+        savanna.addAnimals(20, 20, 5);
     }
 }
