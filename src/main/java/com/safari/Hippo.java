@@ -23,4 +23,6 @@ public class Hippo extends Animal {
         this.y = y;
         i++;
     }
+
+
 }

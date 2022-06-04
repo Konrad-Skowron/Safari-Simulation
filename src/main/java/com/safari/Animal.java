@@ -58,4 +58,8 @@ public abstract class Animal {
     public String getName() {
         return name;
     }
+
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
 }

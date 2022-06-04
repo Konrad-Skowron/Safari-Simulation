@@ -11,7 +11,7 @@ public class Lion extends Animal {
         food = 100;
         water = 100;
         hp = 200;
-        speed = 2;
+        speed = 1;
         i++;
     }
 
