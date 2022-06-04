@@ -62,7 +62,7 @@ public class Savanna extends JPanel {
             }
         }
         water_generate(4);
-        tree_generate(10);
+        tree_generate(30);
     }
 
     public void water_generate(int amount) {
@@ -117,14 +117,14 @@ public class Savanna extends JPanel {
         }
     }
 
-    public void drink(Animal animal){
-        if(map[animal.x][animal.y] == 'W'){
-            animal.water += 25;
-            if (animal.water>100)   {animal.water = 100;}
-        }
-        else {
-            animal.water -= 10;
-        }
+    public void drink(Animal animal){                   //drink będzie dla wszystkich zwierząt
+        animal.water += 25;
+        if (animal.water > 100)   {animal.water = 100;}
+    }
+
+    public void eat(Animal animal){                     //jedzenie dla poszczególnych zwierząt inne
+        animal.food += 25;
+        if(animal.food > 100)   {animal.food = 100;}
     }
 
     public void pause(int s) {
@@ -165,11 +165,11 @@ public class Savanna extends JPanel {
                 for(int i=animal.x-1; i<animal.x+1; i++){
                     for (int j=animal.y-1; j<animal.y+1; j++){
                         if(map[i][j] == 'W'){
-                            //drink
+                            drink(animal);
                         }
-                        else if(map[i][j] == 'T'){
+                        if(map[i][j] == 'T'){
                             if(animal instanceof Hippo){
-                                //eat vege
+                                eat(animal);
                             }
                         }
                         else if(map[i][j] == 'H'){
@@ -198,6 +198,7 @@ public class Savanna extends JPanel {
 
             else if(map[animal.x][animal.y] == 'W'){            //Woda
                 if(animal instanceof Hippo){                    //Hipo wchodzi
+                    drink(animal);
                     animal.prev = map[animal.x][animal.y];
                     map[prevX][prevY] = prevPrev;
                     map[animal.x][animal.y] = 'H';
@@ -223,8 +224,8 @@ public class Savanna extends JPanel {
         while (i > 0) {
             pause(1);
             for (Animal animal : animals) {
-                if(!(animal.hp == 0)){
-                    if (animal.food <= 0 || animal.water <= 0){
+                //if(!(animal.hp == 0)){
+                    if (animal.hp <= 0){
                         Carrion carrion = new Carrion(animal.x, animal.y, animal.prev);
                         carrions.add(carrion);
                         map[carrion.x][carrion.y] = 'C';
@@ -234,10 +235,17 @@ public class Savanna extends JPanel {
                     else{
                         animalsMove(animal, animal.x, animal.y, animal.prev);
 
-                        animal.food--;
-                        animal.water -= 10;
+                        animal.food -= 10;
+                        animal.water -= 5;
+
+                        if(animal.food <= 0 ){
+                            animal.hp -= 10;
+                        }
+                        if (animal.water <= 0 ){
+                            animal.hp -= 10;
+                        }
                     }
-                }
+               // }
             }
             for (Carrion carrion : carrions){
                 carrion.time--;
