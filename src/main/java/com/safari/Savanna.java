@@ -12,12 +12,14 @@ import java.util.concurrent.TimeUnit;
 
 public class Savanna extends JPanel {
 
+    public int turns;
     public int size;
     public char[][] map;
     public List<Animal> animals = new ArrayList<>();
     public List<Carrion> carrions = new ArrayList<>();
 
-    public Savanna(int size) {
+    public Savanna(int size, int turns) {
+        this.turns = turns;
         this.size = size;
         map = new char[size][size];
     }
@@ -28,36 +30,26 @@ public class Savanna extends JPanel {
         for (int x = 0; x < size; x++) {
             for (int y = 0; y < size; y++) {
                 if (map[x][y] == 'S') {
-                    g.setColor(new Color(239,228,176,255));
-                    g.fillRect(x*10, y*10, 10, 10);
-                }
-            }
-        }
-        for (int x = 0; x < size; x++) {
-            for (int y = 0; y < size; y++) {
-                if (map[x][y] == 'H') {
-                    g.setColor(Color.GRAY);
-                    g.fillRect(x*10, y*10, 10, 10);
-                }
-                else if (map[x][y] == 'L') {
-                    g.setColor(Color.ORANGE);
-                    g.fillRect(x*10, y*10, 10, 10);
-                }
-                else if (map[x][y] == 'V') {
-                    g.setColor(Color.WHITE);
-                    g.fillRect(x*10, y*10, 10, 10);
-                }
-                else if (map[x][y] == 'C') {
-                    g.setColor(Color.BLACK);
-                    g.fillRect(x*10, y*10, 10, 10);
-                }
-                else if (map[x][y] == 'T') {
-                    g.setColor(new Color(12, 174, 91));
-                    g.fillRect(x*10, y*10, 10, 10);
-                }
-                else if (map[x][y] == 'W') {
+                    g.setColor(new Color(239,228,176));
+                    g.fillRect(x * 10, y * 10, 10, 10);
+                } else if (map[x][y] == 'W') {
                     g.setColor(new Color(116,204,244));
-                    g.fillRect(x*10, y*10, 10, 10);
+                    g.fillRect(x * 10, y * 10, 10, 10);
+                } else if (map[x][y] == 'T') {
+                    g.setColor(new Color(12, 174, 91));
+                    g.fillRect(x * 10, y * 10, 10, 10);
+                } else if (map[x][y] == 'H') {
+                    g.setColor(new Color(92, 124, 137));
+                    g.fillRect(x * 10, y * 10, 10, 10);
+                } else if (map[x][y] == 'L') {
+                    g.setColor(new Color(247, 166, 15));
+                    g.fillRect(x * 10, y * 10, 10, 10);
+                } else if (map[x][y] == 'V') {
+                    g.setColor(new Color(148, 109, 52));
+                    g.fillRect(x * 10, y * 10, 10, 10);
+                } else if (map[x][y] == 'C') {
+                    g.setColor(new Color(75, 0, 0));
+                    g.fillRect(x * 10, y * 10, 10, 10);
                 }
             }
         }
@@ -69,8 +61,8 @@ public class Savanna extends JPanel {
                 map[x][y] = 'S';
             }
         }
-        water_generate(4);
-        tree_generate(5);
+        water_generate(amountW);
+        tree_generate(amountT);
     }
 
     public void water_generate(int amount) {
@@ -78,18 +70,18 @@ public class Savanna extends JPanel {
         for (int k = 0; k < amount; k++) {
             int x = new Random().nextInt(size);
             int y = new Random().nextInt(size);
-            for (int i = 0; i < water.size(); i++) {
+            for (Integer pixels : water) {
                 int l = y, r = y;
-                for (int j = 0; j < water.get(i); j++) {
+                for (int j = 0; j < pixels; j++) {
                     try {
                         map[x][l] = 'W';
                     } catch (Exception e) {
-
+                        System.out.println("\nException caught");
                     }
                     try {
                         map[x][r] = 'W';
                     } catch (Exception e) {
-
+                        System.out.println("\nException caught");
                     }
                     l--;
                     r++;
@@ -104,18 +96,18 @@ public class Savanna extends JPanel {
         for (int k = 0; k < amount; k++) {
             int x = new Random().nextInt(size);
             int y = new Random().nextInt(size);
-            for (int i = 0; i < trees.size(); i++) {
+            for (Integer pixels : trees) {
                 int l = y, r = y;
-                for (int j = 0; j < trees.get(i); j++) {
+                for (int j = 0; j < pixels; j++) {
                     try {
                         map[x][l] = 'T';
                     } catch (Exception e) {
-
+                        System.out.println("\nException caught");
                     }
                     try {
                         map[x][r] = 'T';
                     } catch (Exception e) {
-
+                        System.out.println("\nException caught");
                     }
                     l--;
                     r++;
@@ -127,12 +119,12 @@ public class Savanna extends JPanel {
 
     public void drink(Animal animal){                   //drink będzie dla wszystkich zwierząt
         animal.water += 25;
-        if (animal.water > 100)   {animal.water = 100;}
+        if (animal.water > 100) animal.water = 100;
     }
 
     public void eat(Animal animal){                     //jedzenie dla poszczególnych zwierząt inne
         animal.food += 25;
-        if(animal.food > 100)   {animal.food = 100;}
+        if (animal.food > 100) animal.food = 100;
     }
 
     public void pause(int s) {
@@ -170,6 +162,7 @@ public class Savanna extends JPanel {
             map[lion.x][lion.y] = 'L';
         }
     }
+
     public void addVulture(int count) {
         for (int i = 0; i < count; i++) {
             Vulture vulture = new Vulture();
@@ -183,6 +176,7 @@ public class Savanna extends JPanel {
             map[vulture.x][vulture.y] = 'V';
         }
     }
+
     public void addAnimals(int amountH, int amountL, int amountV){
         addHippo(amountH);
         addLion(amountL);
@@ -190,13 +184,13 @@ public class Savanna extends JPanel {
         repaint();
         animalsMove();
     }
+
     int k;
     public void animalsMove(Animal animal, int prevX, int prevY, char prevPrev){        //pamiętać o jedzeniu i piciu!
         try{
             animal.move();
             if(map[animal.x][animal.y] == 'T'){                 //Drzewo - Wszyscy ruszaja się jeszcze raz
                 if(animal instanceof Vulture){                    //Vulture wchodzi
-                    drink(animal);
                     animal.prev = map[animal.x][animal.y];
                     map[prevX][prevY] = prevPrev;
                     map[animal.x][animal.y] = animal.getName().charAt(0);
@@ -210,11 +204,11 @@ public class Savanna extends JPanel {
             }
             else if(map[animal.x][animal.y] == 'S'){            //Piasek
                 for(int i=animal.x-1; i<=animal.x+1; i++){
-                    if(i < 1 || i > 63){
+                    if (i < 0 || i > size - 1){
                         continue;
                     }
                     for (int j=animal.y-1; j<=animal.y+1; j++){
-                        if(j < 1 || j > 63){
+                        if (j < 0 || j > size - 1) {
                             continue;
                         }
                         if(map[i][j] == 'W'){
@@ -246,7 +240,6 @@ public class Savanna extends JPanel {
                 map[prevX][prevY] = prevPrev;
                 map[animal.x][animal.y] = animal.getName().charAt(0);
             }
-
             else if(map[animal.x][animal.y] == 'H' || map[animal.x][animal.y] == 'L' || map[animal.x][animal.y] == 'V' || map[animal.x][animal.y] == 'C'){            //Pole zwierza - losuje jeszcze raz
                 animal.x = prevX;
                 animal.y = prevY;
@@ -259,24 +252,21 @@ public class Savanna extends JPanel {
                     return;
                 }
                 animalsMove(animal, prevX, prevY, prevPrev);
-
             }
-
             else if(map[animal.x][animal.y] == 'W'){            //Woda
                 if(animal instanceof Hippo || animal instanceof Vulture){                    //Hipo i Vulture wchodzi
                     drink(animal);
                     animal.prev = map[animal.x][animal.y];
                     map[prevX][prevY] = prevPrev;
                     map[animal.x][animal.y] = animal.getName().charAt(0);
-                }
-                else {                                          //Reszta ruszaja się jeszcze raz
+                } else {                                          //Reszta ruszaja się jeszcze raz
                     animal.x = prevX;
                     animal.y = prevY;
                     animal.prev = prevPrev;
                     animalsMove(animal, prevX, prevY, prevPrev);
                 }
             }
-            k=0;
+            k = 0;
         }catch (Exception e){
             animal.x = prevX;
             animal.y = prevY;
@@ -286,22 +276,21 @@ public class Savanna extends JPanel {
     }
 
     public void animalsMove() {
-        int i = 999;
-        while (i > 0) {
+        while (turns > 0) {
             pause(1);
             for (Animal animal : animals) {
                 if(animal.hp > 0){
                     animalsMove(animal, animal.x, animal.y, animal.prev);
 
-                    animal.food -= 5;           //funkcja, można dodać jeszcze losowe tracenie statów/przypisać rózne dla zwierząt w klasie
-                    animal.water -= 10;
+                    if (animal.food > 0 )   //Funkcja, można dodać jeszcze losowe tracenie statów/przypisać rózne dla zwierząt w klasie
+                        animal.food -= 5;
+                    if (animal.water > 0 )
+                        animal.water -= 10;
 
-                    if(animal.food <= 0 ){
+                    if (animal.food <= 0 )
                         animal.hp -= 10;
-                    }
-                    if (animal.water <= 0 ){
+                    if (animal.water <= 0 )
                         animal.hp -= 10;
-                    }
                 }
                 if (animal.hp <= 0){
                     Carrion carrion = new Carrion(animal.x, animal.y, animal.prev);
@@ -319,8 +308,8 @@ public class Savanna extends JPanel {
                 }
             }
             //pronHub();
+            turns--;
             repaint();
-            i--;
         }
     }
 
@@ -352,15 +341,15 @@ public class Savanna extends JPanel {
     }
 
     public static void main(String[] args) {
-        Savanna savanna = new Savanna(64);
+        Savanna savanna = new Savanna(64, 999);
         JFrame frame = new JFrame("Safari Simulation");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(savanna);
-        frame.setSize(savanna.size*10+13, savanna.size*10 + 38);
+        frame.setSize(savanna.size * 10 + 13, savanna.size * 10 + 38);
         frame.setVisible(true);
 
         savanna.map_initialization(4, 10);
         savanna.pause(1);
-        savanna.addAnimals(20, 20, 5);
+        savanna.addAnimals(5, 3, 2);
     }
 }
