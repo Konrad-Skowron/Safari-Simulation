@@ -3,7 +3,7 @@ package com.safari;
 public class Carrion {
 
     public int id;
-    public int time;
+    public int durabity;
     public int x;
     public int y;
     public char prev;
@@ -13,7 +13,7 @@ public class Carrion {
     Carrion(int x, int y, char prev){
         i++;
         this.id = i;
-        this.time = 10;
+        this.durabity = 100;
         this.x = x;
         this.y = y;
         this.prev = prev;
@@ -29,5 +29,13 @@ public class Carrion {
 
     public int getY() {
         return y;
+    }
+
+    public void setDurabity(int durabity) {
+        this.durabity = durabity;
+    }
+
+    public int getDurabity() {
+        return durabity;
     }
 }

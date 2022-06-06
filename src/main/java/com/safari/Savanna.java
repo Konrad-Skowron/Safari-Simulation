@@ -76,12 +76,12 @@ public class Savanna extends JPanel {
                     try {
                         map[x][l] = 'W';
                     } catch (Exception e) {
-                        System.out.println("\nException caught");
+//                        System.out.println("\nException caught");
                     }
                     try {
                         map[x][r] = 'W';
                     } catch (Exception e) {
-                        System.out.println("\nException caught");
+//                        System.out.println("\nException caught");
                     }
                     l--;
                     r++;
@@ -102,12 +102,12 @@ public class Savanna extends JPanel {
                     try {
                         map[x][l] = 'T';
                     } catch (Exception e) {
-                        System.out.println("\nException caught");
+//                        System.out.println("\nException caught");
                     }
                     try {
                         map[x][r] = 'T';
                     } catch (Exception e) {
-                        System.out.println("\nException caught");
+//                        System.out.println("\nException caught");
                     }
                     l--;
                     r++;
@@ -232,6 +232,11 @@ public class Savanna extends JPanel {
                         else if(map[i][j] == 'C'){                                          //O tu trzeba sie pobawić
                             if(animal instanceof Vulture){
                                 eat(animal);
+                                for(Carrion carrionE : carrions){
+                                    if(carrionE.x == i && carrionE.y == j){
+                                        carrionE.setDurabity(carrionE.getDurabity()-50);
+                                    }
+                                }
                             }
                         }
                     }
@@ -301,8 +306,7 @@ public class Savanna extends JPanel {
                 }
             }
             for (Carrion carrion : carrions){
-                carrion.time--;
-                if(carrion.time <= 0){
+                if(carrion.durabity <= 0){
                     map[carrion.x][carrion.y] = carrion.prev;
                     carrion = null;
                 }
