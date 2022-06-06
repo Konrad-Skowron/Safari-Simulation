@@ -1,26 +1,26 @@
 package com.safari;
+
+import java.util.Random;
+
 public class Hippo extends Animal {
 
-    static int id = 1;
+    private static int id;
 
     public Hippo() {
+        super();
         name = "Hippo-" + id;
-        sex = sexR();
-        food = 100;
-        water = 100;
-        hp = 200;
         speed = 1;
+        foodPerRound = new Random().nextInt(3)+1;;
+        waterPerRound = new Random().nextInt(5)+1;
         id++;
     }
+
     public Hippo(int x, int y) {
+        super();
         name = "Hippo-" + id;
-        sex = sexR();
-        food = 100;
-        water = 100;
-        hp = 200;
         speed = 1;
-        this.x = x;
-        this.y = y;
+        foodPerRound = new Random().nextInt(3)+1;;
+        waterPerRound = new Random().nextInt(5)+1;
         id++;
     }
 

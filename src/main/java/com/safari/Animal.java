@@ -2,16 +2,15 @@ package com.safari;
 
 import java.util.Random;
 
-public abstract class Animal {
+public abstract class Animal extends OObject{
 
     String name;
-    char sex;
-    int food;
-    int water;
+    private int food;
+    private int water;
     int hp;
     int speed;
-    int x;
-    int y;
+    int foodPerRound;
+    int waterPerRound;
     char prev;
 
     public void move() {
@@ -48,11 +47,18 @@ public abstract class Animal {
         }
     }
 
-    public char sexR(){
-        if(new Random().nextInt(2) == 1){
-            return 'F';
-        }
-        else return 'M';
+    public Animal() {
+        food = 100;
+        water = 100;
+        hp = 100;
+    }
+
+    public Animal(int x, int y) {
+        food = 100;
+        water = 100;
+        hp = 100;
+        this.x = x;
+        this.y = y;
     }
 
     public String getName() {
@@ -61,5 +67,22 @@ public abstract class Animal {
 
     public void setHp(int hp) {
         this.hp = hp;
+    }
+
+    public void drink(){
+        water += waterPerRound;
+        if (water > 100) water = 100;
+    }
+
+    public void eat(){
+        water += foodPerRound;
+        if (water > 100) water = 100;
+    }
+
+    public void hp(){
+        if (food <= 0 )
+            hp -= 10;
+        if (water <= 0 )
+            hp -= 10;
     }
 }
