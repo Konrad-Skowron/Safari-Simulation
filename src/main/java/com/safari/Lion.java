@@ -10,7 +10,7 @@ public class Lion extends Animal {
     public Lion() {
         super();
         setName("Lion-" + id);
-        setSpeed(2);
+        setSpeed(1);
         damage = new Random().nextInt(10)+35;
         setFoodPerRound(new Random().nextInt(4)+1);
         setWaterPerRound(new Random().nextInt(3)+1);

@@ -119,7 +119,7 @@ public class Savanna extends JPanel {
 
     public void pause(int s) {
         try {
-            TimeUnit.SECONDS.sleep(s);
+            TimeUnit.MILLISECONDS.sleep(s);
         } catch (InterruptedException ie) {
             Thread.currentThread().interrupt();
         }
@@ -174,6 +174,33 @@ public class Savanna extends JPanel {
         repaint();
         animalsMove();
     }
+
+    public void foo(){
+        for (Animal animal: animals){
+            if (animal instanceof Lion || animal instanceof Vulture){
+                if(animal.getHp() > 0){
+                    animalsMove(animal, animal.getX(), animal.getY(), animal.getPrev());
+
+                    animal.hp();
+                }
+                if (animal.getHp() <= 0){
+                    Carrion carrion = new Carrion(animal.getX(), animal.getY(), animal.getPrev());
+                    carrions.add(carrion);
+                    map[carrion.getX()][carrion.getY()] = 'C';
+                    animal.setHp(0);
+                    animal = null;
+                }
+            }
+            for (Carrion carrion : carrions){
+                if(carrion.getDurabity() <= 0){
+                    map[carrion.getX()][carrion.getY()] = carrion.getPrev();
+                    carrion = null;
+                }
+            }
+            //pronHub();
+            repaint();
+            }
+        }
 
     int k;
     public void animalsMove(Animal animal, int prevX, int prevY, char prevPrev){        //pamiętać o jedzeniu i piciu!
@@ -272,7 +299,7 @@ public class Savanna extends JPanel {
 
     public void animalsMove() {
         while (turns > 0) {
-            pause(1);
+            pause(500);
             for (Animal animal : animals) {
                 if(animal.getHp() > 0){
                     animalsMove(animal, animal.getX(), animal.getY(), animal.getPrev());
@@ -296,6 +323,8 @@ public class Savanna extends JPanel {
             //pronHub();
             turns--;
             repaint();
+            pause(500);
+            foo();
         }
     }
 
@@ -307,8 +336,9 @@ public class Savanna extends JPanel {
         frame.setSize(savanna.size * 10 + 13, savanna.size * 10 + 38);
         frame.setVisible(true);
 
+
         savanna.map_initialization(4, 10);
         savanna.pause(1);
-        savanna.addAnimals(4, 2, 2);
+        savanna.addAnimals(4, 6, 2);
     }
 }
