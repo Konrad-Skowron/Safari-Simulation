@@ -2,15 +2,12 @@ package com.safari;
 
 public class Carrion extends OObject{
 
-    private  static int id;
+    private static int id;
     private int durabity;
-    public char prev;
 
     Carrion(int x, int y, char prev){
+        super(x, y, prev);
         this.durabity = 100;
-        this.x = x;
-        this.y = y;
-        this.prev = prev;
         id++;
     }
 

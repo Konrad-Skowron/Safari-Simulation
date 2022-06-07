@@ -7,19 +7,10 @@ public class Vulture extends Animal {
 
     public Vulture() {
         super();
-        name = "Vulture-" + id;
-        speed = 3;
-        foodPerRound = new Random().nextInt(2)+1;;
-        waterPerRound = new Random().nextInt(2)+1;
-        id++;
-    }
-
-    public Vulture(int x, int y) {
-        super();
-        name = "Vulture-" + id;
-        speed = 3;
-        foodPerRound = new Random().nextInt(2)+1;;
-        waterPerRound = new Random().nextInt(2)+1;
+        setName("Vulture-" + id);
+        setSpeed(2);
+        setFoodPerRound(new Random().nextInt(2)+1);
+        setWaterPerRound(new Random().nextInt(2)+1);
         id++;
     }
 }

@@ -9,24 +9,15 @@ public class Lion extends Animal {
 
     public Lion() {
         super();
-        name = "Lion-" + id;
-        speed = 2;
+        setName("Lion-" + id);
+        setSpeed(2);
         damage = new Random().nextInt(10)+35;
-        foodPerRound = new Random().nextInt(4)+1;;
-        waterPerRound = new Random().nextInt(3)+1;
-        id++;
-    }
-
-    public Lion(int x, int y) {
-        super();
-        name = "Vulture-" + id;
-        speed = 2;
-        foodPerRound = new Random().nextInt(4)+1;;
-        waterPerRound = new Random().nextInt(3)+1;
+        setFoodPerRound(new Random().nextInt(4)+1);
+        setWaterPerRound(new Random().nextInt(3)+1);
         id++;
     }
 
     public void attack(Animal target){
-        target.hp -= damage;
+        target.setHp(target.getHp() - damage);
     }
 }
