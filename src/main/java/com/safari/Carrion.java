@@ -11,11 +11,6 @@ public class Carrion extends OObject{
         id++;
     }
 
-    public int getId() {
-        return id;
-    }
-
-
     public void setDurabity(int durabity) {
         this.durabity = durabity;
     }

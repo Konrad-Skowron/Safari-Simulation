@@ -19,13 +19,6 @@ public abstract class Animal extends OObject{
         hp = 100;
     }
 
-    public Animal(int x, int y) {
-        super(x, y);
-        food = 100;
-        water = 100;
-        hp = 100;
-    }
-
     public String getName() {
         return name;
     }
@@ -94,8 +87,8 @@ public abstract class Animal extends OObject{
     }
 
     public void eat(){
-        water += foodPerRound;
-        if (water > 100) water = 100;
+        food += foodPerRound;
+        if (food > 100) food = 100;
     }
 
     public void hp(){
