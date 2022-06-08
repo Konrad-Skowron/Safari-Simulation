@@ -4,15 +4,14 @@ import java.util.Random;
 
 public class Hippo extends Animal {
 
-    private static int id;
+    private static int idCountH;
 
     public Hippo() {
         super();
-        setName("Hippo-" + id);
+        setName("Hippo-" + idCountH);
         setSpeed(1);
         setFoodPerRound(new Random().nextInt(3)+1);
         setWaterPerRound(new Random().nextInt(5)+1);
-
-        id++;
+        idCountH++;
     }
 }

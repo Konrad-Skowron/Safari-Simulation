@@ -137,7 +137,7 @@ public class Savanna extends JPanel {
             animals.add(hippo);
             map[hippo.getX()][hippo.getY()] = 'H';
         }
-    }
+    }       //addAnimal
 
     public void addLion(int count) {
         for (int i = 0; i < count; i++) {
@@ -200,7 +200,7 @@ public class Savanna extends JPanel {
             //pronHub();
             repaint();
             }
-        }
+        }       //Zrobienie to przez dzielenie
 
     int k;
     public void animalsMove(Animal animal, int prevX, int prevY, char prevPrev){        //pamiętać o jedzeniu i piciu!

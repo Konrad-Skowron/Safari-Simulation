@@ -5,18 +5,13 @@ public abstract class OObject {
     private int y;
     private char prev;
 
-    protected OObject() {
-    }
-
-    public OObject(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-
     public OObject(int x, int y, char prev) {
         this.x = x;
         this.y = y;
         this.prev = prev;
+    }
+
+    protected OObject() {
     }
 
     public int getX() {
