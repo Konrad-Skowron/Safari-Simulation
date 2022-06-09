@@ -1,32 +1,28 @@
 package com.safari;
 
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import javax.swing.JTable;
 import javax.swing.JScrollPane;
-import java.awt.Color;
+import javax.swing.table.DefaultTableModel;
 
 public class Statistics extends JPanel {
 
-  public JTextArea textArea;
+  public JTable table;
+  public DefaultTableModel tableModel;
 
   public Statistics() {
-    this.textArea = new JTextArea(20, 30);
-    textArea.setBackground(new Color(40,40,40));
-    textArea.setForeground(new Color(102,255,102));
-    JScrollPane scrollBar = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-        JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-    add(scrollBar);
+    String[] columns = {"Name", "HP", "Food", "Water"};
+    this.tableModel = new DefaultTableModel(columns, 0);
+    this.table = new JTable(tableModel);
+    JScrollPane plane = new JScrollPane(table);
+    add(plane);
   }
 
   public void update() {
-    textArea.setText(null);
+    tableModel.setRowCount(0);
     for (Animal a : Savanna.getAnimals()) {
-      textArea.append(a.getName() + ":\n ");
-      textArea.append("    HP: " + a.getHp() + ",\n");
-      textArea.append("    food: " + a.getFood() + ",\n");
-      textArea.append("    water: " + a.getWater() + "\n\n");
+      tableModel.insertRow(tableModel.getRowCount(), new Object[] { a.getName(), a.getHp(), a.getFood(), a.getWater() });
     }
   }
 

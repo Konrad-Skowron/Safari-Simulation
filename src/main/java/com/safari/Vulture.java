@@ -9,8 +9,8 @@ public class Vulture extends Animal {
         super();
         setName("Vulture-" + idCountV);
         setSpeed(1);
-        setFoodPerRound(new Random().nextInt(2)+1);
-        setWaterPerRound(new Random().nextInt(2)+1);
+        setFoodPerRound((new Random().nextInt(2)+1) * getSpeed());
+        setWaterPerRound((new Random().nextInt(2)+1) * getSpeed());
         idCountV++;
     }
 }

@@ -337,7 +337,7 @@ public class Savanna extends JPanel {
 
         savanna.map_initialization(4, 10);
         savanna.pause(500);
-        savanna.addAnimals(1, 1, 1);
+        savanna.addAnimals(4, 6, 2);
     }
 
 }

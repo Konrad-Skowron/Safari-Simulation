@@ -12,8 +12,8 @@ public class Lion extends Animal {
         setName("Lion-" + idCountL);
         setSpeed(2);
         damage = new Random().nextInt(10)+35;
-        setFoodPerRound(new Random().nextInt(4)+1);
-        setWaterPerRound(new Random().nextInt(3)+1);
+        setFoodPerRound((new Random().nextInt(4)+1) * getSpeed());
+        setWaterPerRound((new Random().nextInt(3)+1) * getSpeed());
         idCountL++;
     }
 
