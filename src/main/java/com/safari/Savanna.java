@@ -2,8 +2,10 @@ package com.safari;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JButton;
 import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,43 +15,54 @@ import java.util.concurrent.TimeUnit;
 public class Savanna extends JPanel {
 
     public int turns;
+    public int scale;
     public int size;
     public char[][] map;
-    public List<Animal> animals = new ArrayList<>();
-    public List<Carrion> carrions = new ArrayList<>();
+    public static List<Animal> animals = new ArrayList<>();
+    public static List<Carrion> carrions = new ArrayList<>();
+    public Statistics stats = new Statistics();
 
-    public Savanna(int size, int turns) {
-        this.turns = turns;
+    public Savanna(int size, int scale, int turns) {
         this.size = size;
+        this.scale = scale;
+        this.turns = turns;
         map = new char[size][size];
+        JButton button = new JButton("stats");
+        button.setBounds(scale * size - 77, scale * size - 30, 72, 25);
+        button.addActionListener(e -> stats.showStats(stats));
+        add(button);
+    }
+
+    public Dimension getPreferredSize() {
+        return new Dimension(size * scale,size * scale);
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        this.setBackground(Color.BLACK);
+        this.setBackground(new Color(40,40,40));
         for (int x = 0; x < size; x++) {
             for (int y = 0; y < size; y++) {
                 if (map[x][y] == 'S') {
                     g.setColor(new Color(239,228,176));
-                    g.fillRect(x * 10, y * 10, 10, 10);
+                    g.fillRect(x * scale, y * scale, scale, scale);
                 } else if (map[x][y] == 'W') {
                     g.setColor(new Color(116,204,244));
-                    g.fillRect(x * 10, y * 10, 10, 10);
+                    g.fillRect(x * scale, y * scale, scale, scale);
                 } else if (map[x][y] == 'T') {
                     g.setColor(new Color(12, 174, 91));
-                    g.fillRect(x * 10, y * 10, 10, 10);
+                    g.fillRect(x * scale, y * scale, scale, scale);
                 } else if (map[x][y] == 'H') {
                     g.setColor(new Color(92, 124, 137));
-                    g.fillRect(x * 10, y * 10, 10, 10);
+                    g.fillRect(x * scale, y * scale, scale, scale);
                 } else if (map[x][y] == 'L') {
                     g.setColor(new Color(247, 166, 15));
-                    g.fillRect(x * 10, y * 10, 10, 10);
+                    g.fillRect(x * scale, y * scale, scale, scale);
                 } else if (map[x][y] == 'V') {
                     g.setColor(new Color(148, 109, 52));
-                    g.fillRect(x * 10, y * 10, 10, 10);
+                    g.fillRect(x * scale, y * scale, scale, scale);
                 } else if (map[x][y] == 'C') {
                     g.setColor(new Color(75, 0, 0));
-                    g.fillRect(x * 10, y * 10, 10, 10);
+                    g.fillRect(x * scale, y * scale, scale, scale);
                 }
             }
         }
@@ -199,6 +212,7 @@ public class Savanna extends JPanel {
             }
             //pronHub();
             repaint();
+            stats.update();
             }
         }       //Zrobienie to przez dzielenie
 
@@ -323,22 +337,33 @@ public class Savanna extends JPanel {
             //pronHub();
             turns--;
             repaint();
+            stats.update();
             pause(500);
             foo();
         }
     }
 
+    public static List<Animal> getAnimals() {
+        return animals;
+    }
+
+    public static List<Carrion> getCarrions() {
+        return carrions;
+    }
+
+
     public static void main(String[] args) {
-        Savanna savanna = new Savanna(64, 999);
+        Savanna savanna = new Savanna(64, 10, 999);
+        savanna.setLayout(null);
         JFrame frame = new JFrame("Safari Simulation");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(savanna);
-        frame.setSize(savanna.size * 10 + 13, savanna.size * 10 + 38);
+        frame.pack();
+        frame.setResizable(false);
         frame.setVisible(true);
 
-
         savanna.map_initialization(4, 10);
-        savanna.pause(1);
-        savanna.addAnimals(4, 6, 2);
+        savanna.pause(500);
+        savanna.addAnimals(4, 3, 2);
     }
 }

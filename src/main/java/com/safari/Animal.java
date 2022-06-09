@@ -23,6 +23,14 @@ public abstract class Animal extends OObject{
         return name;
     }
 
+    public int getFood() {
+        return food;
+    }
+
+    public int getWater() {
+        return water;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
