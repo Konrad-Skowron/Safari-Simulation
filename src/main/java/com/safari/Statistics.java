@@ -23,10 +23,10 @@ public class Statistics extends JPanel {
   public void update() {
     textArea.setText(null);
     for (Animal a : Savanna.getAnimals()) {
-      textArea.append(a.getName() + ": { ");
-      textArea.append("HP: " + a.getHp() + ", ");
-      textArea.append("food: " + a.getFood() + ", ");
-      textArea.append("water: " + a.getWater() + " }\n\n");
+      textArea.append(a.getName() + ":\n ");
+      textArea.append("    HP: " + a.getHp() + ",\n");
+      textArea.append("    food: " + a.getFood() + ",\n");
+      textArea.append("    water: " + a.getWater() + "\n\n");
     }
   }
 

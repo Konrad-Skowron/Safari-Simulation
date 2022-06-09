@@ -188,34 +188,6 @@ public class Savanna extends JPanel {
         animalsMove();
     }
 
-    public void foo(){
-        for (Animal animal: animals){
-            if (animal instanceof Lion || animal instanceof Vulture){
-                if(animal.getHp() > 0){
-                    animalsMove(animal, animal.getX(), animal.getY(), animal.getPrev());
-
-                    animal.hp();
-                }
-                if (animal.getHp() <= 0){
-                    Carrion carrion = new Carrion(animal.getX(), animal.getY(), animal.getPrev());
-                    carrions.add(carrion);
-                    map[carrion.getX()][carrion.getY()] = 'C';
-                    animal.setHp(0);
-                    animal = null;
-                }
-            }
-            for (Carrion carrion : carrions){
-                if(carrion.getDurabity() <= 0){
-                    map[carrion.getX()][carrion.getY()] = carrion.getPrev();
-                    carrion = null;
-                }
-            }
-            //pronHub();
-            repaint();
-            stats.update();
-            }
-        }       //Zrobienie to przez dzielenie
-
     int k;
     public void animalsMove(Animal animal, int prevX, int prevY, char prevPrev){        //pamiętać o jedzeniu i piciu!
         try{
@@ -312,20 +284,22 @@ public class Savanna extends JPanel {
     }
 
     public void animalsMove() {
-        while (turns > 0) {
-            pause(500);
+        while (3*turns > 0) {
+            pause(250);
             for (Animal animal : animals) {
-                if(animal.getHp() > 0){
-                    animalsMove(animal, animal.getX(), animal.getY(), animal.getPrev());
-
-                    animal.hp();
-                }
-                if (animal.getHp() <= 0){
-                    Carrion carrion = new Carrion(animal.getX(), animal.getY(), animal.getPrev());
-                    carrions.add(carrion);
-                    map[carrion.getX()][carrion.getY()] = 'C';
-                    animal.setHp(0);
-                    animal = null;
+                if (turns % animal.getSpeed() == 0) {
+                    if (animal.getHp() > 0) {
+                        animalsMove(animal, animal.getX(), animal.getY(), animal.getPrev());
+                        animal.lossStats();
+                        animal.hp();
+                    }
+                    if (animal.getHp() <= 0) {
+                        Carrion carrion = new Carrion(animal.getX(), animal.getY(), animal.getPrev());
+                        carrions.add(carrion);
+                        map[carrion.getX()][carrion.getY()] = 'C';
+                        animal.setHp(0);
+                        animal = null;
+                    }
                 }
             }
             for (Carrion carrion : carrions){
@@ -338,8 +312,7 @@ public class Savanna extends JPanel {
             turns--;
             repaint();
             stats.update();
-            pause(500);
-            foo();
+            pause(250);
         }
     }
 
@@ -364,7 +337,7 @@ public class Savanna extends JPanel {
 
         savanna.map_initialization(4, 10);
         savanna.pause(500);
-        savanna.addAnimals(4, 3, 2);
+        savanna.addAnimals(1, 1, 1);
     }
 
 }

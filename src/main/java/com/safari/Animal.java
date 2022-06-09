@@ -23,8 +23,16 @@ public abstract class Animal extends OObject{
         return name;
     }
 
+    public void setFood(int food) {
+        this.food = food;
+    }
+
     public int getFood() {
         return food;
+    }
+
+    public void setWater(int water) {
+        this.water = water;
     }
 
     public int getWater() {
@@ -47,6 +55,10 @@ public abstract class Animal extends OObject{
         this.speed = speed;
     }
 
+    public int getSpeed() {
+        return speed;
+    }
+
     public void setFoodPerRound(int foodPerRound) {
         this.foodPerRound = foodPerRound;
     }
@@ -59,32 +71,32 @@ public abstract class Animal extends OObject{
         int direction = new Random().nextInt(8);
         switch (direction) {
             case 0:
-                setY(getY() - speed);
+                setY(getY() - 1);
                 break;
             case 1:
-                setX(getX() + speed);
+                setX(getX() + 1);
                 break;
             case 2:
-                setY(getY() + speed);
+                setY(getY() + 1);
                 break;
             case 3:
-                setX(getX() - speed);
+                setX(getX() - 1);
                 break;
             case 4:
-                setY(getY() - speed);
-                setX(getX() - speed);
+                setY(getY() - 1);
+                setX(getX() - 1);
                 break;
             case 5:
-                setY(getY() - speed);
-                setX(getX() + speed);
+                setY(getY() - 1);
+                setX(getX() + 1);
                 break;
             case 6:
-                setY(getY() + speed);
-                setX(getX() - speed);
+                setY(getY() + 1);
+                setX(getX() - 1);
                 break;
             case 7:
-                setY(getY() + speed);
-                setX(getX() + speed);
+                setY(getY() + 1);
+                setX(getX() + 1);
                 break;
         }
     }
@@ -104,5 +116,16 @@ public abstract class Animal extends OObject{
             hp -= 10;
         if (water <= 0 )
             hp -= 10;
+    }
+
+    public void lossStats(){
+        setFood(getFood()-foodPerRound);
+        if(getFood() < 0){
+            setFood(0);
+        }
+        setWater(getWater()-waterPerRound);
+        if(getWater() < 0){
+            setWater(0);
+        }
     }
 }
