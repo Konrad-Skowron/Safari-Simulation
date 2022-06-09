@@ -366,4 +366,5 @@ public class Savanna extends JPanel {
         savanna.pause(500);
         savanna.addAnimals(4, 3, 2);
     }
+
 }
