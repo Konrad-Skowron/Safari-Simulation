@@ -1,6 +1,7 @@
 package com.safari;
 
 public abstract class OObject {
+    private String name;
     private int x;
     private int y;
     private char prev;                                  //Zmienna przechowująca poprzedni teren na którym obiekt się znajdował
@@ -12,6 +13,14 @@ public abstract class OObject {
     }
 
     protected OObject() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    protected void setName(String name) {
+        this.name = name;
     }
 
     public int getX() {

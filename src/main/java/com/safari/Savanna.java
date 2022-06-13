@@ -6,10 +6,7 @@ import javax.swing.JButton;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class Savanna extends JPanel {
@@ -79,7 +76,7 @@ public class Savanna extends JPanel {
     }
 
     private void water_generate(int amount) {
-        List<Integer> water = Arrays.asList(3, 5, 7, 7, 8, 8, 9, 9, 9, 9, 9, 8, 8, 7, 7, 5, 3);     //Tablica zawierająca strukture drzewa
+        List<Integer> water = Arrays.asList(3, 5, 7, 7, 8, 8, 9, 9, 9, 9, 9, 8, 8, 7, 7, 5, 3);     //Lista zawierająca strukture/kształt drzewa
         for (int k = 0; k < amount; k++) {
             int x = new Random().nextInt(size);
             int y = new Random().nextInt(size);
@@ -89,12 +86,12 @@ public class Savanna extends JPanel {
                     try {
                         map[x][l] = 'W';
                     } catch (Exception e) {
-//                        System.out.println("\nException caught");
+                        System.out.println("\nException water out of bound - 1");
                     }
                     try {
                         map[x][r] = 'W';
                     } catch (Exception e) {
-//                        System.out.println("\nException caught");
+                        System.out.println("\nException water out of bound - 2");
                     }
                     l--;
                     r++;
@@ -115,12 +112,12 @@ public class Savanna extends JPanel {
                     try {
                         map[x][l] = 'T';
                     } catch (Exception e) {
-//                        System.out.println("\nException caught");
+                        System.out.println("\nException tree out of bound - 1");
                     }
                     try {
                         map[x][r] = 'T';
                     } catch (Exception e) {
-//                        System.out.println("\nException caught");
+                        System.out.println("\nException tree out of bound - 2 ");
                     }
                     l--;
                     r++;
@@ -188,6 +185,14 @@ public class Savanna extends JPanel {
         animalsMove();
     }
 
+    private void createCarion(Animal animal ){
+        Carrion carrion = new Carrion(animal.getX(), animal.getY(), animal.getPrev());
+        carrions.add(carrion);
+        map[carrion.getX()][carrion.getY()] = 'C';
+        animal.setHp(0);
+        animal = null;
+    }
+
     private int k;                      //Zmienna potrzebna do sprawdzenia czy dane zwierze może się ruszyć jeśli nie to stoi w miejscu
     private void animalsMove(Animal animal, int prevX, int prevY, char prevPrev){           //Metoda sprawdzająca następny krok zwierzęcia i wykonanie go jeśli spełnia warunki, wykonanie czynności
         try{
@@ -226,8 +231,11 @@ public class Savanna extends JPanel {
                             if(animal instanceof Lion){
                                 animal.eat();
                                 for(Animal hippoE : animals){
-                                    if(hippoE.getX() == i && hippoE.getY() == j){
+                                    if(hippoE.getX() == i && hippoE.getY() == j && hippoE.getHp() > 0){
                                         ((Lion) animal).attack(hippoE);
+                                        if(hippoE.getHp() <= 0){
+                                            createCarion(hippoE);
+                                        }
                                     }
                                 }
                             }
@@ -285,20 +293,18 @@ public class Savanna extends JPanel {
 
     private void animalsMove() {
         while (3*turns > 0) {                       //Tury pomnożone przez "3", przyjęliśmy że maxymalna prędkośc zwierzęcia jest równa 3
-            pause(250);
+            pause(500);
             for (Animal animal : animals) {
-                if (turns % animal.getSpeed() == 0) {                          //Sprawdzanie czy dane zwierzę może się ruszyć
-                    if (animal.getHp() > 0) {
-                        animalsMove(animal, animal.getX(), animal.getY(), animal.getPrev());        //Wykonanie ruchu przez wierze
-                        animal.lossStats();
-                        animal.hp();                                           //Utrata statystyk (wyżej) i życia
-                    }
-                    if (animal.getHp() <= 0) {                                  //Jeśli zwierzę ma 0 lub mniej życia "umiera" a w jego miejscu pojawia się Truchło
-                        Carrion carrion = new Carrion(animal.getX(), animal.getY(), animal.getPrev());
-                        carrions.add(carrion);
-                        map[carrion.getX()][carrion.getY()] = 'C';
-                        animal.setHp(0);
-                        animal = null;
+                if(animal.getHp() > 0 ){
+                    if (turns % animal.getSpeed() == 0) {                          //Sprawdzanie czy dane zwierzę może się ruszyć
+                        if (animal.getHp() > 0) {
+                            animalsMove(animal, animal.getX(), animal.getY(), animal.getPrev());        //Wykonanie ruchu przez zwierze
+                            animal.lossStats();
+                            animal.hp();                                           //Utrata statystyk (wyżej) i życia
+                        }
+                        if (animal.getHp() <= 0) {                                  //Jeśli zwierzę ma 0 lub mniej życia "umiera" a w jego miejscu pojawia się Truchło
+                            createCarion(animal);
+                        }
                     }
                 }
             }
@@ -312,7 +318,7 @@ public class Savanna extends JPanel {
             turns--;
             repaint();
             stats.update();
-            pause(250);
+            pause(500);
         }
     }
 
@@ -320,13 +326,14 @@ public class Savanna extends JPanel {
         return animals;
     }
 
-//    public static List<Carrion> getCarrions() {
-//        return carrions;
-//    }
+    public static List<Carrion> getCarrions() {
+        return carrions;
+    }
 
 
     public static void main(String[] args) {
         Savanna savanna = new Savanna(64, 10, 999);
+//        Savanna savanna = new Savanna(Integer.parseInt(args[0]), Integer.parseInt(args[1]), Integer.parseInt(args[2]));
         savanna.setLayout(null);
         JFrame frame = new JFrame("Safari Simulation");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -338,6 +345,7 @@ public class Savanna extends JPanel {
         savanna.map_initialization(4, 10);
         savanna.pause(500);
         savanna.addAnimals(4, 6, 2);
+
     }
 
 }

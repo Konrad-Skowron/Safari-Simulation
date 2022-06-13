@@ -4,7 +4,6 @@ import java.util.Random;
 
 public abstract class Animal extends OObject{
 
-    private String name;
     private int food;
     private int water;
     private int hp;
@@ -17,10 +16,6 @@ public abstract class Animal extends OObject{
         food = 100;
         water = 100;
         hp = 100;
-    }
-
-    public String getName() {
-        return name;
     }
 
     protected void setFood(int food) {
@@ -37,10 +32,6 @@ public abstract class Animal extends OObject{
 
     public int getWater() {
         return water;
-    }
-
-    protected void setName(String name) {
-        this.name = name;
     }
 
     protected void setHp(int hp) {
