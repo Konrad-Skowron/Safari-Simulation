@@ -78,8 +78,8 @@ public class Savanna extends JPanel {
         tree_generate(amountT);
     }
 
-    public void water_generate(int amount) {
-        List<Integer> water = Arrays.asList(3, 5, 7, 7, 8, 8, 9, 9, 9, 9, 9, 8, 8, 7, 7, 5, 3);
+    private void water_generate(int amount) {
+        List<Integer> water = Arrays.asList(3, 5, 7, 7, 8, 8, 9, 9, 9, 9, 9, 8, 8, 7, 7, 5, 3);     //Tablica zawierająca strukture drzewa
         for (int k = 0; k < amount; k++) {
             int x = new Random().nextInt(size);
             int y = new Random().nextInt(size);
@@ -104,7 +104,7 @@ public class Savanna extends JPanel {
         }
     }
 
-    public void tree_generate(int amount){
+    private void tree_generate(int amount){
         List<Integer> trees = Arrays.asList(3, 4, 4, 4, 4, 4, 3);
         for (int k = 0; k < amount; k++) {
             int x = new Random().nextInt(size);
@@ -138,27 +138,27 @@ public class Savanna extends JPanel {
         }
     }
 
-    public void addHippo(int count) {
+    private void addHippo(int count) {
         for (int i = 0; i < count; i++) {
             Hippo hippo = new Hippo();
             do{
                 hippo.setX(new Random().nextInt(size));
                 hippo.setY(new Random().nextInt(size));
-            }while (map[hippo.getX()][hippo.getY()] == 'T' || map[hippo.getX()][hippo.getY()] == 'H');          //Jeśli respi na drzewie to szuka innego miejsca
+            }while (map[hippo.getX()][hippo.getY()] == 'T' || map[hippo.getX()][hippo.getY()] == 'H' || map[hippo.getX()][hippo.getY()] == 'L' || map[hippo.getX()][hippo.getY()] == 'C');          //Jeśli następuje stworzenie zwierzęcia, sprawdzane jest czy możę pojawić się w danym miejscu
 
             hippo.setPrev(map[hippo.getX()][hippo.getY()]);
             animals.add(hippo);
             map[hippo.getX()][hippo.getY()] = 'H';
         }
-    }       //addAnimal
+    }
 
-    public void addLion(int count) {
+    private void addLion(int count) {
         for (int i = 0; i < count; i++) {
             Lion lion = new Lion();
             do{
                 lion.setX(new Random().nextInt(size));
                 lion.setY(new Random().nextInt(size));
-            }while (map[lion.getX()][lion.getY()] == 'T' || map[lion.getX()][lion.getY()] == 'W' || map[lion.getX()][lion.getY()] == 'H' || map[lion.getX()][lion.getY()] == 'L');          //Jeśli respi na drzewie lub wodzie to szuka innego miejsca
+            }while (map[lion.getX()][lion.getY()] == 'T' || map[lion.getX()][lion.getY()] == 'W' || map[lion.getX()][lion.getY()] == 'H' || map[lion.getX()][lion.getY()] == 'L' || map[lion.getX()][lion.getY()] == 'V');
 
             lion.setPrev(map[lion.getX()][lion.getY()]);
             animals.add(lion);
@@ -166,7 +166,7 @@ public class Savanna extends JPanel {
         }
     }
 
-    public void addVulture(int count) {
+    private void addVulture(int count) {
         for (int i = 0; i < count; i++) {
             Vulture vulture = new Vulture();
             do{
@@ -180,7 +180,7 @@ public class Savanna extends JPanel {
         }
     }
 
-    public void addAnimals(int amountH, int amountL, int amountV){
+    private void addAnimals(int amountH, int amountL, int amountV){
         addHippo(amountH);
         addLion(amountL);
         addVulture(amountV);
@@ -188,17 +188,17 @@ public class Savanna extends JPanel {
         animalsMove();
     }
 
-    int k;
-    public void animalsMove(Animal animal, int prevX, int prevY, char prevPrev){        //pamiętać o jedzeniu i piciu!
+    private int k;                      //Zmienna potrzebna do sprawdzenia czy dane zwierze może się ruszyć jeśli nie to stoi w miejscu
+    private void animalsMove(Animal animal, int prevX, int prevY, char prevPrev){           //Metoda sprawdzająca następny krok zwierzęcia i wykonanie go jeśli spełnia warunki, wykonanie czynności
         try{
             animal.move();
-            if(map[animal.getX()][animal.getY()] == 'T'){                 //Drzewo - Wszyscy ruszaja się jeszcze raz
-                if(animal instanceof Vulture){                    //Vulture wchodzi
+            if(map[animal.getX()][animal.getY()] == 'T'){       //Jeśli następnym krokiem jest drzewo to:
+                if(animal instanceof Vulture){                  //Jeśli zwierze jest Sępem rusza się
                     animal.setPrev(map[animal.getX()][animal.getY()]);
                     map[prevX][prevY] = prevPrev;
                     map[animal.getX()][animal.getY()] = animal.getName().charAt(0);
                 }
-                else{
+                else{                                           //W innym wypadku szuka innego miejsca do poruszenia się
                     animal.setX(prevX);
                     animal.setY(prevY);
                     animal.setPrev(prevPrev);
@@ -206,7 +206,7 @@ public class Savanna extends JPanel {
                 }
             }
             else if(map[animal.getX()][animal.getY()] == 'S'){            //Piasek
-                for(int i=animal.getX()-1; i<=animal.getX()+1; i++){
+                for(int i=animal.getX()-1; i<=animal.getX()+1; i++){      //Sprawdzanie co znajduje się wokół nowego miejsca które jest piaskiem
                     if (i < 0 || i > size - 1){
                         continue;
                     }
@@ -232,12 +232,12 @@ public class Savanna extends JPanel {
                                 }
                             }
                         }
-                        else if(map[i][j] == 'C'){                                          //O tu trzeba sie pobawić
+                        else if(map[i][j] == 'C'){
                             if(animal instanceof Vulture){
                                 animal.eat();
                                 for(Carrion carrionE : carrions){
                                     if(carrionE.getX() == i && carrionE.getY() == j){
-                                        carrionE.setDurabity(carrionE.getDurabity()-50);
+                                        carrionE.setDurability(carrionE.getDurability()-50);
                                     }
                                 }
                             }
@@ -248,7 +248,7 @@ public class Savanna extends JPanel {
                 map[prevX][prevY] = prevPrev;
                 map[animal.getX()][animal.getY()] = animal.getName().charAt(0);
             }
-            else if(map[animal.getX()][animal.getY()] == 'H' || map[animal.getX()][animal.getY()] == 'L' || map[animal.getX()][animal.getY()] == 'V' || map[animal.getX()][animal.getY()] == 'C'){            //Pole zwierza - losuje jeszcze raz
+            else if(map[animal.getX()][animal.getY()] == 'H' || map[animal.getX()][animal.getY()] == 'L' || map[animal.getX()][animal.getY()] == 'V' || map[animal.getX()][animal.getY()] == 'C'){          //Zwierze lub truchło         //Pole zwierza - losuje jeszcze raz
                 animal.setX(prevX);
                 animal.setY(prevY);
                 animal.setPrev(prevPrev);
@@ -262,12 +262,12 @@ public class Savanna extends JPanel {
                 animalsMove(animal, prevX, prevY, prevPrev);
             }
             else if(map[animal.getX()][animal.getY()] == 'W'){            //Woda
-                if(animal instanceof Hippo || animal instanceof Vulture){                    //Hipo i Vulture wchodzi
+                if(animal instanceof Hippo || animal instanceof Vulture){
                     animal.drink();
                     animal.setPrev(map[animal.getX()][animal.getY()]);
                     map[prevX][prevY] = prevPrev;
                     map[animal.getX()][animal.getY()] = animal.getName().charAt(0);
-                } else {                                          //Reszta ruszaja się jeszcze raz
+                } else {
                     animal.setX(prevX);
                     animal.setY(prevY);
                     animal.setPrev(prevPrev);
@@ -283,17 +283,17 @@ public class Savanna extends JPanel {
         }
     }
 
-    public void animalsMove() {
-        while (3*turns > 0) {
+    private void animalsMove() {
+        while (3*turns > 0) {                       //Tury pomnożone przez "3", przyjęliśmy że maxymalna prędkośc zwierzęcia jest równa 3
             pause(250);
             for (Animal animal : animals) {
-                if (turns % animal.getSpeed() == 0) {
+                if (turns % animal.getSpeed() == 0) {                          //Sprawdzanie czy dane zwierzę może się ruszyć
                     if (animal.getHp() > 0) {
-                        animalsMove(animal, animal.getX(), animal.getY(), animal.getPrev());
+                        animalsMove(animal, animal.getX(), animal.getY(), animal.getPrev());        //Wykonanie ruchu przez wierze
                         animal.lossStats();
-                        animal.hp();
+                        animal.hp();                                           //Utrata statystyk (wyżej) i życia
                     }
-                    if (animal.getHp() <= 0) {
+                    if (animal.getHp() <= 0) {                                  //Jeśli zwierzę ma 0 lub mniej życia "umiera" a w jego miejscu pojawia się Truchło
                         Carrion carrion = new Carrion(animal.getX(), animal.getY(), animal.getPrev());
                         carrions.add(carrion);
                         map[carrion.getX()][carrion.getY()] = 'C';
@@ -303,7 +303,7 @@ public class Savanna extends JPanel {
                 }
             }
             for (Carrion carrion : carrions){
-                if(carrion.getDurabity() <= 0){
+                if(carrion.getDurability() <= 0){
                     map[carrion.getX()][carrion.getY()] = carrion.getPrev();
                     carrion = null;
                 }
@@ -320,9 +320,9 @@ public class Savanna extends JPanel {
         return animals;
     }
 
-    public static List<Carrion> getCarrions() {
-        return carrions;
-    }
+//    public static List<Carrion> getCarrions() {
+//        return carrions;
+//    }
 
 
     public static void main(String[] args) {

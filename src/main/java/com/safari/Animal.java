@@ -8,7 +8,7 @@ public abstract class Animal extends OObject{
     private int food;
     private int water;
     private int hp;
-    private int speed;
+    private int speed;          //Wartość speed, im wyższa wartość tym zwierze jest wolniejsze, opytmalnie powinna ona wynosić maxymalnie 3
     private int foodPerRound;
     private int waterPerRound;
 
@@ -23,7 +23,7 @@ public abstract class Animal extends OObject{
         return name;
     }
 
-    public void setFood(int food) {
+    protected void setFood(int food) {
         this.food = food;
     }
 
@@ -31,7 +31,7 @@ public abstract class Animal extends OObject{
         return food;
     }
 
-    public void setWater(int water) {
+    protected void setWater(int water) {
         this.water = water;
     }
 
@@ -39,11 +39,11 @@ public abstract class Animal extends OObject{
         return water;
     }
 
-    public void setName(String name) {
+    protected void setName(String name) {
         this.name = name;
     }
 
-    public void setHp(int hp) {
+    protected void setHp(int hp) {
         this.hp = hp;
     }
 
@@ -51,7 +51,7 @@ public abstract class Animal extends OObject{
         return hp;
     }
 
-    public void setSpeed(int speed) {
+    protected void setSpeed(int speed) {
         this.speed = speed;
     }
 
@@ -59,15 +59,15 @@ public abstract class Animal extends OObject{
         return speed;
     }
 
-    public void setFoodPerRound(int foodPerRound) {
+    protected void setFoodPerRound(int foodPerRound) {
         this.foodPerRound = foodPerRound;
     }
 
-    public void setWaterPerRound(int waterPerRound) {
+    protected void setWaterPerRound(int waterPerRound) {
         this.waterPerRound = waterPerRound;
     }
 
-    public void move() {
+    protected void move() {                             //Ruch zwierzęcia jest losowy, może on ruszyć się w 8 różnych kierunkach
         int direction = new Random().nextInt(8);
         switch (direction) {
             case 0:
@@ -101,24 +101,24 @@ public abstract class Animal extends OObject{
         }
     }
 
-    public void drink(){
+    protected void drink(){
         water += waterPerRound;
         if (water > 100) water = 100;
     }
 
-    public void eat(){
-        food += foodPerRound;
+    protected void eat(){
+        food += foodPerRound;               //każde zwierzę ma unikalna wartość z jaką traci picie i jedenie
         if (food > 100) food = 100;
     }
 
-    public void hp(){
+    protected void hp(){
         if (food <= 0 )
             hp -= 10;
         if (water <= 0 )
             hp -= 10;
     }
 
-    public void lossStats(){
+    protected void lossStats(){
         setFood(getFood()-foodPerRound);
         if(getFood() < 0){
             setFood(0);

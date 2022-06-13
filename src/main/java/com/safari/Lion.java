@@ -17,7 +17,7 @@ public class Lion extends Animal {
         idCountL++;
     }
 
-    public void attack(Animal target){
+    protected void attack(Animal target){           //unikalna metoda dla Lwa pozwalająca zaatakowac Hipopotama
         target.setHp(target.getHp() - damage);
     }
 }

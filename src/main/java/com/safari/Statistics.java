@@ -19,14 +19,14 @@ public class Statistics extends JPanel {
     add(plane);
   }
 
-  public void update() {
+  protected void update() {
     tableModel.setRowCount(0);
     for (Animal a : Savanna.getAnimals()) {
       tableModel.insertRow(tableModel.getRowCount(), new Object[] { a.getName(), a.getHp(), a.getFood(), a.getWater() });
     }
   }
 
-  public void showStats(Statistics stats) {
+  protected void showStats(Statistics stats) {
     JFrame frame = new JFrame("stats");
     frame.add(stats);
     frame.pack();
