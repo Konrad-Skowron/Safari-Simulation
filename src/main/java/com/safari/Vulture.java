@@ -13,4 +13,5 @@ public class Vulture extends Animal {
         setWaterPerRound((new Random().nextInt(1)+1) * getSpeed());
         idCountV++;
     }
+
 }

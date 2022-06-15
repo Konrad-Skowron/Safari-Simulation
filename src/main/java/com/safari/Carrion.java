@@ -19,4 +19,5 @@ public class Carrion extends OObject{
     public int getDurability() {
         return durability;
     }
+
 }

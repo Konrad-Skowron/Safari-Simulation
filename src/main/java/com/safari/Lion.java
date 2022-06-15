@@ -12,8 +12,8 @@ public class Lion extends Animal {
         setName("Lion-" + idCountL);
         setSpeed(2);
         damage = new Random().nextInt(10)+35;
-        setFoodPerRound((new Random().nextInt(2)+1) * getSpeed());
-        setWaterPerRound((new Random().nextInt(2)+1) * getSpeed());
+        setFoodPerRound((new Random().nextInt(2)+1));
+        setWaterPerRound((new Random().nextInt(2)+1));
         idCountL++;
     }
 
@@ -21,4 +21,5 @@ public class Lion extends Animal {
         target.setHp(target.getHp() - damage);
         setFood(getFood()+damage);
     }
+
 }

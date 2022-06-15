@@ -50,6 +50,7 @@ public abstract class Animal extends OObject{
         return speed;
     }
 
+
     protected void setFoodPerRound(int foodPerRound) {
         this.foodPerRound = foodPerRound;
     }
@@ -93,12 +94,12 @@ public abstract class Animal extends OObject{
     }
 
     protected void drink(){
-        water += waterPerRound;
+        water += waterPerRound*5;
         if (water > 100) water = 100;
     }
 
     protected void eat(){
-        food += foodPerRound;               //każde zwierzę ma unikalna wartość z jaką traci picie i jedenie
+        food += foodPerRound*5;               //każde zwierzę ma unikalna wartość z jaką traci picie i jedenie
         if (food > 100) food = 100;
     }
 

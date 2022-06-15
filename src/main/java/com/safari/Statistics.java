@@ -24,10 +24,6 @@ public class Statistics extends JPanel {
     for (Animal a : Savanna.getAnimals()) {
       tableModel.insertRow(tableModel.getRowCount(), new Object[] { a.getName(), a.getHp(), a.getFood(), a.getWater() });
     }
-
-    for (Carrion a : Savanna.getCarrions()) {
-      tableModel.insertRow(tableModel.getRowCount(), new Object[] { a.getName(), a.getDurability() });
-    }
   }
 
   protected void showStats(Statistics stats) {

@@ -63,6 +63,11 @@ public class Savanna extends JPanel {
                 }
             }
         }
+        g.setColor(Color.BLACK);
+        for (Animal animal : animals) {
+            if (animal.getHp() <= 0) continue;
+            g.drawString(animal.getName().substring(animal.getName().indexOf("-") + 1), animal.getX() * scale, animal.getY() * scale);
+        }
     }
 
     public void map_initialization(int amountW, int amountT) {
@@ -185,7 +190,7 @@ public class Savanna extends JPanel {
         animalsMove();
     }
 
-    private void createCarion(Animal animal ){
+    private void createCarrion(Animal animal ){
         Carrion carrion = new Carrion(animal.getX(), animal.getY(), animal.getPrev());
         carrions.add(carrion);
         map[carrion.getX()][carrion.getY()] = 'C';
@@ -229,12 +234,11 @@ public class Savanna extends JPanel {
                         }
                         if(map[i][j] == 'H'){
                             if(animal instanceof Lion){
-                                animal.eat();
                                 for(Animal hippoE : animals){
                                     if(hippoE.getX() == i && hippoE.getY() == j && hippoE.getHp() > 0){
                                         ((Lion) animal).attack(hippoE);
                                         if(hippoE.getHp() <= 0){
-                                            createCarion(hippoE);
+                                            createCarrion(hippoE);
                                         }
                                     }
                                 }
@@ -292,21 +296,21 @@ public class Savanna extends JPanel {
     }
 
     private void animalsMove() {
-        while (3*turns > 0) {                       //Tury pomnożone przez "3", przyjęliśmy że maxymalna prędkośc zwierzęcia jest równa 3
+        while (turns > 0) {                       //przyjęliśmy że maxymalna prędkośc zwierzęcia jest równa 3
             pause(500);
             for (Animal animal : animals) {
                 if(animal.getHp() > 0 ){
                     if (turns % animal.getSpeed() == 0) {                          //Sprawdzanie czy dane zwierzę może się ruszyć
                         if (animal.getHp() > 0) {
                             animalsMove(animal, animal.getX(), animal.getY(), animal.getPrev());        //Wykonanie ruchu przez zwierze
-                            animal.lossStats();
                             animal.hp();                                           //Utrata statystyk (wyżej) i życia
                         }
                         if (animal.getHp() <= 0) {                                  //Jeśli zwierzę ma 0 lub mniej życia "umiera" a w jego miejscu pojawia się Truchło
-                            createCarion(animal);
+                            createCarrion(animal);
                         }
                     }
                 }
+                animal.lossStats();
             }
             for (Carrion carrion : carrions){
                 if(carrion.getDurability() <= 0){
@@ -324,10 +328,6 @@ public class Savanna extends JPanel {
 
     public static List<Animal> getAnimals() {
         return animals;
-    }
-
-    public static List<Carrion> getCarrions() {
-        return carrions;
     }
 
 
