@@ -13,6 +13,7 @@ public class Savanna extends JPanel {
 
     public int turns;
     public int scale;
+
     public int size;
     public char[][] map;
     public static List<Animal> animals = new ArrayList<>();
@@ -310,7 +311,8 @@ public class Savanna extends JPanel {
                         }
                     }
                 }
-                animal.lossStats();
+                if (animal.getHp() > 0)
+                    animal.lossStats();
             }
             for (Carrion carrion : carrions){
                 if(carrion.getDurability() <= 0){
@@ -330,10 +332,8 @@ public class Savanna extends JPanel {
         return animals;
     }
 
-
     public static void main(String[] args) {
         Savanna savanna = new Savanna(64, 10, 999);
-//        Savanna savanna = new Savanna(Integer.parseInt(args[0]), Integer.parseInt(args[1]), Integer.parseInt(args[2]));
         savanna.setLayout(null);
         JFrame frame = new JFrame("Safari Simulation");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -345,7 +345,5 @@ public class Savanna extends JPanel {
         savanna.map_initialization(4, 10);
         savanna.pause(500);
         savanna.addAnimals(4, 6, 2);
-
     }
-
 }

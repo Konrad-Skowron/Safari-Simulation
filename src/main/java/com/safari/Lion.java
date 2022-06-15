@@ -9,12 +9,12 @@ public class Lion extends Animal {
 
     public Lion() {
         super();
+        idCountL++;
         setName("Lion-" + idCountL);
         setSpeed(2);
         damage = new Random().nextInt(10)+35;
         setFoodPerRound((new Random().nextInt(2)+1));
         setWaterPerRound((new Random().nextInt(2)+1));
-        idCountL++;
     }
 
     protected void attack(Animal target){           //Unikalna metoda dla Lwa pozwalająca zaatakowac Hipopotama

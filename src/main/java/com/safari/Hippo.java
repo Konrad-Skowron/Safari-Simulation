@@ -8,11 +8,11 @@ public class Hippo extends Animal {
 
     public Hippo() {
         super();
+        idCountH++;
         setName("Hippo-" + idCountH);
         setSpeed(3);
         setFoodPerRound((new Random().nextInt(2)+1));
         setWaterPerRound((new Random().nextInt(4)+1));
-        idCountH++;
     }
 
 }

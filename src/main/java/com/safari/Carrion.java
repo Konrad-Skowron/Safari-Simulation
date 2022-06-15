@@ -7,9 +7,9 @@ public class Carrion extends OObject{
 
     Carrion(int x, int y, char prev){
         super(x, y, prev);
+        idCountC++;
         setName("Carrion-" + idCountC);
         this.durability = 100;
-        idCountC++;
     }
 
     protected void setDurability(int durabity) {
